@@ -8,6 +8,8 @@ import inputsRoutes from './inputs.routes.js'
 
 import storeRoutes from './store.routes.js'
 
+import pushRoutes from './push.routes.js'
+
 const router = Router();
 
 router.get('/', (req, res) => {
@@ -24,5 +26,7 @@ router.use('/sales', salesRoutes)
 router.use('/inputs', inputsRoutes)
 
 router.use('/store', storeRoutes)
+
+router.use('/push', pushRoutes)
 
 export default router;

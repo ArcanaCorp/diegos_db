@@ -20,7 +20,8 @@ const allowedOrigins = [
     "http://192.168.18.12:3000",
     "https://andaleya.pe",
     "https://merchants.andaleya.pe",
-    "https://andale.ttutis.com"
+    "https://andale.ttutis.com",
+    "http://192.168.1.37"
 ];
 
 app.use(cors({
