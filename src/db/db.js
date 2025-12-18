@@ -3,6 +3,8 @@ import { HOST_DB, USER_DB, PASSWORD_DB, DATABASE_DB, PORT_DB } from '#src/config
 
 //user: qM4]%n?F0hFjAgJg
 
+//password supabase: 7/yj8227D$uM!J/
+
 export const pool = mysql.createPool({
     host: HOST_DB || 'localhost',
     user: USER_DB || 'root',

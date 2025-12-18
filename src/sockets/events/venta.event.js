@@ -1,3 +1,5 @@
+import { notifyUsersByRole } from "#src/services/push.service.js";
+
 export default function registerVentaEvents(io, socket) {
 
     // SOLO TIENDA debería emitir esto
@@ -23,6 +25,14 @@ export default function registerVentaEvents(io, socket) {
             // 📦 Notificar ALMACÉN
             io.to("ALMACEN").emit("stock:update", {
                 productos: ventaGuardada.productos
+            });
+
+            await notifyUsersByRole("ADMIN", {
+                title: "Nueva venta registrada",
+                body: `Se registró una venta de ${ventaGuardada.total} USD`,
+                icon: "/icon.png",
+                badge: "/badge.png",
+                url: "/dashboard" // si quieren abrir al click
             });
 
         } catch (error) {
