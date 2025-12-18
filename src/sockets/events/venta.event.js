@@ -29,10 +29,10 @@ export default function registerVentaEvents(io, socket) {
 
             await notifyUsersByRole("ADMIN", {
                 title: "Nueva venta registrada",
-                body: `Se registró una venta de ${ventaGuardada.total} USD`,
+                body: `Se registró una venta de S/.${ventaGuardada.total} en la ${ventaGuardada.store}.`,
                 icon: "/icon.png",
                 badge: "/badge.png",
-                url: "/dashboard" // si quieren abrir al click
+                url: "/ventas" // si quieren abrir al click
             });
 
         } catch (error) {
