@@ -1,11 +1,10 @@
-// services/push.service.js
 import webpush from "#src/config/webpush.js";
 import { pool } from "#src/db/db.js";
 
 // payload = { title, body, icon?, badge?, url? }
 export const notifyUsersByRole = async (role, payload) => {
   
-    const [rows] = await pool.query(`SELECT ps.endpoint, ps.p256dh, ps.auth FROM push_subscriptions ps JOIN users u ON u.user_code = ps.user_id WHERE u.role = ?`, [role]);
+    const [rows] = await pool.query(`SELECT ps.endpoint, ps.p256dh, ps.auth FROM push_subscriptions ps JOIN users u ON u.code_user = ps.user_id WHERE u.role_user = ?`, [role]);
 
     for (const row of rows) {
         const subscription = {
