@@ -1,6 +1,7 @@
 import { Server } from "socket.io";
 import registerUserEvents from "./events/user.event.js";
 import registerVentaEvents from "./events/venta.event.js";
+import registerRequestEvents from './events/request.event.js'
 
 export default function socketLoader(server, allowedOrigins) {
     const io = new Server(server, {
@@ -25,6 +26,7 @@ export default function socketLoader(server, allowedOrigins) {
 
         registerUserEvents(io, socket);
         registerVentaEvents(io, socket);
+        registerRequestEvents(io, socket);
 
         socket.on("disconnect", () => {
             console.log(`❌ ${role} desconectado → ${socket.id}`);

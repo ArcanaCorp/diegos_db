@@ -4,51 +4,59 @@ import { STATUS_CODE } from "#src/helpers/status_codes.js";
 export const getSales = async (req, res) => {
     try {
 
-        const [rows] = await pool.query(`
-            SELECT 
+        const sql = `SELECT 
                 s.id_sales,
                 s.headquarter_sales,
+                u.name_user AS headquarter_name,
                 s.payment_sales,
                 s.total_sales,
                 s.note_sales,
                 s.fecha_sales,
+
                 CONCAT(
                     '[',
                     IFNULL(
                         GROUP_CONCAT(
-                            CASE 
-                                WHEN ps.id_product_sale IS NOT NULL THEN
-                                    JSON_OBJECT(
-                                        'id_product_sale', ps.id_product_sale,
-                                        'name', ps.name_product_sale,
-                                        'amount', ps.amount_product_sale,
-                                        'subtotal', ps.subtotal_product_sale,
-                                        'created_at', ps.created_product_sale
-                                    )
-                            END
-                            ORDER BY IFNULL(ps.created_product_sale, ps.id_product_sale)
+                            JSON_OBJECT(
+                                'id', ps.id_product_sale,
+                                'name', ps.name_product_sale,
+                                'amount', ps.amount_product_sale,
+                                'subtotal', ps.subtotal_product_sale,
+                                'created_at', ps.created_product_sale
+                            )
+                            ORDER BY ps.created_product_sale
                             SEPARATOR ','
                         ),
                         ''
                     ),
                     ']'
                 ) AS products
+
             FROM sales s
-            LEFT JOIN product_sales ps 
+
+            INNER JOIN users u
+                ON u.code_user = s.headquarter_sales
+
+            LEFT JOIN product_sales ps
                 ON ps.id_sales = s.id_sales
+
             GROUP BY 
                 s.id_sales,
                 s.headquarter_sales,
+                u.name_user,
                 s.payment_sales,
                 s.total_sales,
                 s.note_sales,
                 s.fecha_sales
+
             ORDER BY s.id_sales DESC;
-        `);
+        `
+
+        const [rows] = await pool.query(sql);
 
         const formattedRows = rows.map(row => ({
             id: row.id_sales,
-            store: row.headquarter_sales,
+            store: row.headquarter_name,
             payment: row.payment_sales,
             total: Number(row.total_sales),
             note: row.note_sales,

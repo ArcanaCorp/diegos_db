@@ -16,5 +16,6 @@ export const {
     JWT_SECRET,
     API_FACTILIZA_WHATSAPP,
     VAPID_PUBLIC_KEY,
-    VAPID_PRIVATE_KEY
+    VAPID_PRIVATE_KEY,
+    ENDPOINT_SUNAT
 } = process.env;
