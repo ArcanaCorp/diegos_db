@@ -36,8 +36,8 @@ export default function registerRequestEvents (io, socket) {
 
             // 📲 Push notification
             await notifyUsersByRole("ADMIN", {
-                title: "Nueva solicitud de tienda",
-                body: request.title,
+                title: request.title || "Nueva solicitud de tienda",
+                body: request.message,
                 icon: "/icon.png",
                 badge: "/badge.png",
                 url: "/solicitudes"
